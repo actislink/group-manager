@@ -11,5 +11,4 @@ public class GroupCreation {
     public String getName() {
         return name;
     }
-
 }

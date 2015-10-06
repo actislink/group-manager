@@ -1,9 +1,9 @@
 package com.actislink.modules;
 
-import com.actislink.bussines.GroupManager;
 import com.actislink.bussines.UserManager;
 import com.actislink.dao.UserDAO;
 import com.actislink.dao.inmemory.UserDAOImpl;
+import com.actislink.service.GroupService;
 import com.google.inject.AbstractModule;
 
 public class UserModule extends AbstractModule {
@@ -13,7 +13,8 @@ public class UserModule extends AbstractModule {
         bind(UserDAO.class).to(UserDAOImpl.class);
         bind(UserManager.class).toInstance(new UserManager());
 
-        bind(GroupManager.class).toInstance(new GroupManager());
+    
+        bind(GroupService.class).toInstance(new GroupService());
     }
 
 }

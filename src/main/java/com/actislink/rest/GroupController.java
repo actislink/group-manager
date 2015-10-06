@@ -12,16 +12,16 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.actislink.bussines.GroupManager;
 import com.actislink.dao.AlreadyExistException;
 import com.actislink.model.GroupCreation;
 import com.actislink.model.GroupId;
 import com.actislink.model.UserId;
+import com.actislink.service.GroupService;
 
 @Path("/group")
 public class GroupController {
     @Inject
-    private GroupManager groupManager;
+    private GroupService groupService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupController.class);
 
@@ -30,14 +30,14 @@ public class GroupController {
         GroupCreation groupCreation = new GroupCreation(name);
 
         try {
-            groupManager.createGroup(groupCreation);
+            groupService.createGroup(groupCreation);
 
             HttpSession session = req.getSession(false);
 
             GroupId groupId = new GroupId(groupCreation.getName());
             UserId userId = new UserId(session.getAttribute("username").toString());
 
-            groupManager.addUser(groupId, userId);
+            groupService.manage(groupId).addUser(userId);
 
             return Response.status(200).entity("ok").build();
         } catch (AlreadyExistException e) {
