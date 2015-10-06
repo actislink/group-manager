@@ -57,6 +57,11 @@
 			<artifactId>guice-servlet</artifactId>
 			<version>4.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-assistedinject</artifactId>
+			<version>4.0</version>
+		</dependency>
 
 		<!-- Jetty -->
 		<dependency>

@@ -12,7 +12,9 @@ import com.actislink.model.GroupInfo;
 import com.actislink.model.GroupItem;
 import com.actislink.model.GroupState;
 import com.actislink.model.UserId;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GroupDAOImpl implements GroupDAO {
 
     private Map<GroupId, GroupState> map = new HashMap<GroupId, GroupState>();
@@ -42,14 +44,32 @@ public class GroupDAOImpl implements GroupDAO {
 
     @Override
     public List<GroupItem> listAll() {
-        
+
         List<GroupItem> list = new ArrayList<GroupItem>();
         for (GroupState groupState : map.values()) {
             list.add(new GroupItem(groupState.getId(), groupState.getCreationDate()));
         }
-        
+
         return list;
 
+    }
+
+    @Override
+    public void join(GroupId groupId, UserId userId) {
+        GroupState groupState = map.get(groupId);
+        if (groupState == null) {
+            throw new IllegalArgumentException();
+        }
+        groupState.getMembers().add(userId);
+    }
+
+    @Override
+    public void leave(GroupId groupId, UserId userId) {
+        GroupState groupState = map.get(groupId);
+        if (groupState == null) {
+            throw new IllegalArgumentException();
+        }
+        groupState.getMembers().remove(userId);
     }
 
 }

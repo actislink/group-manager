@@ -8,7 +8,9 @@ import com.actislink.dao.UserDAO;
 import com.actislink.model.UserId;
 import com.actislink.model.UserInfo;
 import com.actislink.model.UserState;
+import com.google.inject.Singleton;
 
+@Singleton
 public class UserDAOImpl implements UserDAO {
 
     private Map<UserId, UserState> map = new HashMap<UserId, UserState>();

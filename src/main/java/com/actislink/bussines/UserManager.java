@@ -8,7 +8,9 @@ import com.actislink.model.UserCreation;
 import com.actislink.model.UserId;
 import com.actislink.model.UserInfo;
 import com.actislink.model.UserState;
+import com.google.inject.Singleton;
 
+@Singleton
 public class UserManager {
 
     @Inject

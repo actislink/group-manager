@@ -15,6 +15,10 @@ public interface GroupDAO {
     GroupInfo loadById(GroupId id);
 
     void addMember(GroupId groupId, UserId userId);
-    
+
     List<GroupItem> listAll();
+
+    void join(GroupId groupId, UserId userId);
+
+    void leave(GroupId groupId, UserId userId);
 }
