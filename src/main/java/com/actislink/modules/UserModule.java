@@ -14,9 +14,10 @@ public class UserModule extends AbstractModule {
     protected void configure() {
         bind(UserDAO.class).to(UserDAOImpl.class);
         bind(UserManager.class).toInstance(new UserManager());
-        
+
         bind(GroupDAO.class).to(GroupDAOImpl.class);
         bind(GroupService.class).toInstance(new GroupService());
+
     }
 
 }
