@@ -1,22 +1,34 @@
 package com.actislink.dao.inmemory;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.actislink.dao.AlreadyExistException;
 import com.actislink.dao.UserDAO;
+import com.actislink.model.UserId;
+import com.actislink.model.UserInfo;
 import com.actislink.model.UserState;
 
 public class UserDAOImpl implements UserDAO {
 
-    private Set<UserState> set = new HashSet<UserState>();
+    private Map<UserId, UserState> map = new HashMap<UserId, UserState>();
 
     @Override
     public synchronized void create(UserState userState) throws AlreadyExistException {
-        if (set.contains(userState)) {
+        if (map.keySet().contains(userState.getId())) {
             throw new AlreadyExistException();
         }
-        set.add(userState);
+        map.put(userState.getId(), userState);
+    }
+
+    @Override
+    public UserInfo loadById(UserId id) {
+        UserState state = map.get(id);
+        UserInfo userInfo = null;
+        if (state != null) {
+            userInfo = new UserInfo(state.getId().getId(), state.getDescription());
+        }
+        return userInfo;
     }
 
 }
