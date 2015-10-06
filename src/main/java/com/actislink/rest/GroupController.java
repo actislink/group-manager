@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.actislink.dao.AlreadyExistException;
 import com.actislink.model.GroupCreation;
 import com.actislink.model.GroupId;
+import com.actislink.model.GroupInfo;
 import com.actislink.model.UserId;
 import com.actislink.service.GroupService;
 import com.google.common.base.Joiner;
@@ -29,15 +30,9 @@ public class GroupController {
 
     @GET
     public Response create(@QueryParam("name") String name, @Context HttpServletRequest req) {
-        GroupCreation groupCreation = new GroupCreation(name);
-
         try {
-            groupService.createGroup(groupCreation);
-
-            GroupId groupId = new GroupId(groupCreation.getName());
             UserId userId = getCurrentUser(req.getSession());
-
-            groupService.manage(groupId).addUser(userId);
+            groupService.createGroup(new GroupCreation(name), userId);
 
             return Response.status(200).entity("ok").build();
         } catch (AlreadyExistException e) {
@@ -77,6 +72,16 @@ public class GroupController {
     @GET
     @Path("list")
     public Response list() {
-        return Response.status(200).entity(Joiner.on("\n").join(groupService.listAll())).build();
+        return Response.status(200).entity(Joiner.on("<br/>").join(groupService.listAll())).build();
+    }
+
+    @GET
+    @Path("{name}")
+    public Response display(@PathParam("name") String group) {
+        GroupInfo info = groupService.manage(new GroupId(group)).get();
+        if (info == null) {
+            return Response.status(404).build();
+        }
+        return Response.status(200).entity(info.toString()).build();
     }
 }
