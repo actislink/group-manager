@@ -6,7 +6,6 @@ import java.util.Map;
 import com.actislink.dao.AlreadyExistException;
 import com.actislink.dao.UserDAO;
 import com.actislink.model.UserId;
-import com.actislink.model.UserInfo;
 import com.actislink.model.UserState;
 import com.google.inject.Singleton;
 
@@ -24,13 +23,8 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserInfo loadById(UserId id) {
-        UserState state = map.get(id);
-        UserInfo userInfo = null;
-        if (state != null) {
-            userInfo = new UserInfo(state.getId().getId(), state.getDescription());
-        }
-        return userInfo;
+    public UserState loadById(UserId id) {
+        return map.get(id);
     }
 
 }

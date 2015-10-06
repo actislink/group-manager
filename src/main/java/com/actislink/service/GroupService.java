@@ -1,5 +1,6 @@
 package com.actislink.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,12 @@ public class GroupService {
     private GroupManagerFactory factory;
 
     public List<GroupItem> listAll() {
-        return groupDAO.listAll();
+        List<GroupItem> list = new ArrayList<GroupItem>();
+        for (GroupState groupState : groupDAO.listAll()) {
+            list.add(new GroupItem(groupState.getId(), groupState.getCreationDate()));
+        }
+
+        return list;
     }
 
     public void createGroup(GroupCreation groupCreation) throws AlreadyExistException {

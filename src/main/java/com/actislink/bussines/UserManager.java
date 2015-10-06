@@ -24,6 +24,11 @@ public class UserManager {
     }
 
     public UserInfo get(UserId id) {
-        return userDAO.loadById(id);
+        UserState state = userDAO.loadById(id);
+        UserInfo userInfo = null;
+        if (state != null) {
+            userInfo = new UserInfo(state.getId().getId(), state.getDescription());
+        }
+        return userInfo;
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public class GroupState {
     private GroupId id;
     private Instant creationInstant;
-    private List<UserId> members = new LinkedList<UserId>();
+    private List<GroupUserItem> members = new LinkedList<GroupUserItem>();
 
     public GroupState(String name) {
         creationInstant = Instant.now();
@@ -52,7 +52,7 @@ public class GroupState {
         return id;
     }
 
-    public List<UserId> getMembers() {
+    public List<GroupUserItem> getMembers() {
         return members;
     }
 }

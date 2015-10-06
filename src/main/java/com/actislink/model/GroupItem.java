@@ -23,6 +23,6 @@ public class GroupItem {
 
     @Override
     public String toString() {
-        return id + " " + creationInstant;
+        return creationInstant + " " + id;
     }
 }
