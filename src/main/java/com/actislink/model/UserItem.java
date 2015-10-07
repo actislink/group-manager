@@ -1,6 +1,8 @@
 package com.actislink.model;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class UserItem {
     private String name;
@@ -17,6 +19,7 @@ public class UserItem {
 
     @Override
     public String toString() {
-        return joinInstant + " " + name;
+        return String.format("%s %s",
+                DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.systemDefault()).format(joinInstant), name);
     }
 }

@@ -1,13 +1,13 @@
 package com.actislink.model;
 
 import java.time.Instant;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GroupState {
     private GroupId id;
     private Instant creationInstant;
-    private List<GroupUserItem> members = new LinkedList<GroupUserItem>();
+    private Set<GroupUserItem> members = new HashSet<GroupUserItem>();
 
     public GroupState(String name) {
         creationInstant = Instant.now();
@@ -52,7 +52,7 @@ public class GroupState {
         return id;
     }
 
-    public List<GroupUserItem> getMembers() {
+    public Set<GroupUserItem> getMembers() {
         return members;
     }
 }

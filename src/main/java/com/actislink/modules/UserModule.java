@@ -6,7 +6,6 @@ import com.actislink.dao.GroupDAO;
 import com.actislink.dao.UserDAO;
 import com.actislink.dao.inmemory.GroupDAOImpl;
 import com.actislink.dao.inmemory.UserDAOImpl;
-import com.actislink.model.GroupId;
 import com.actislink.service.GroupService;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -21,9 +20,7 @@ public class UserModule extends AbstractModule {
         bind(GroupDAO.class).to(GroupDAOImpl.class);
         bind(GroupService.class).toInstance(new GroupService());
 
-        install(new FactoryModuleBuilder()
-                .implement(GroupId.class, GroupId.class)
-                .build(GroupManagerFactory.class));
+        install(new FactoryModuleBuilder().build(GroupManagerFactory.class));
     }
 
 }

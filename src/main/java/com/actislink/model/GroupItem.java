@@ -1,6 +1,7 @@
 package com.actislink.model;
 
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 
 public class GroupItem {
 
@@ -8,7 +9,6 @@ public class GroupItem {
     private Instant creationInstant;
 
     public GroupItem(GroupId id, Instant creationInstant) {
-        super();
         this.id = id;
         this.creationInstant = creationInstant;
     }
@@ -23,6 +23,6 @@ public class GroupItem {
 
     @Override
     public String toString() {
-        return creationInstant + " " + id;
+        return String.format("%s %s", DateTimeFormatter.RFC_1123_DATE_TIME.format(creationInstant), id);
     }
 }

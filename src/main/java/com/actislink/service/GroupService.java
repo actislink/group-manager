@@ -49,7 +49,7 @@ public class GroupService {
 
     @Provides
     @Singleton
-    public GroupManager manage(GroupId id) {
+    public synchronized GroupManager manage(GroupId id) {
         if (!map.containsKey(id)) {
             map.put(id, factory.create(id));
         }

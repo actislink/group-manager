@@ -34,7 +34,7 @@ public class GroupController {
             UserId userId = getCurrentUser(req.getSession());
             groupService.createGroup(new GroupCreation(name), userId);
 
-            return Response.status(200).entity("ok").build();
+            return Response.status(200).build();
         } catch (AlreadyExistException e) {
             LOGGER.warn("", e);
             return Response.status(500).entity(e.getMessage()).build();

@@ -39,7 +39,7 @@ public class UserController {
             HttpSession session = req.getSession(true);
             session.setAttribute("username", username);
 
-            return Response.status(200).entity(username + " " + desc).build();
+            return Response.status(200).build();
         } catch (AlreadyExistException e) {
             LOGGER.warn("", e);
             return Response.status(500).entity(e.getMessage()).build();
@@ -53,7 +53,7 @@ public class UserController {
         if (userInfo == null) {
             return Response.status(404).build();
         } else {
-            return Response.status(200).entity(userInfo.getName() + " " + userInfo.getDescription()).build();
+            return Response.status(200).entity(userInfo.toString()).build();
         }
     }
 }

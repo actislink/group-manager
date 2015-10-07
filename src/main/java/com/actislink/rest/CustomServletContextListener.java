@@ -28,7 +28,7 @@ public class CustomServletContextListener extends GuiceServletContextListener {
                 }
                 serve("/rest/*").with(GuiceContainer.class);
             }
-        }, new UserModule()); // <-- Adding other Guice Dependency Injection Modules
+        }, new UserModule());
     }
 
 }

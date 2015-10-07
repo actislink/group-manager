@@ -1,6 +1,8 @@
 package com.actislink.model;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -22,6 +24,8 @@ public class GroupInfo {
 
     @Override
     public String toString() {
-        return creationInstant + " " + name + " " + Joiner.on(", ").join(members);
+        return String.format("CreationDate: %s\nName: %s\nMembers:\n\t%s",
+                DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.systemDefault()).format(creationInstant), name,
+                Joiner.on("\n\t").join(members));
     }
 }
