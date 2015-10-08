@@ -11,6 +11,7 @@ import com.actislink.bussines.GroupManager;
 import com.actislink.bussines.GroupManagerFactory;
 import com.actislink.dao.AlreadyExistException;
 import com.actislink.dao.GroupDAO;
+import com.actislink.dao.MaxFreqException;
 import com.actislink.model.GroupCreation;
 import com.actislink.model.GroupId;
 import com.actislink.model.GroupItem;
@@ -38,13 +39,14 @@ public class GroupService {
         return list;
     }
 
-    public void createGroup(GroupCreation groupCreation, UserId creator) throws AlreadyExistException {
+    public void createGroup(GroupCreation groupCreation, UserId creator) throws AlreadyExistException, MaxFreqException {
         GroupState state = new GroupState(groupCreation.getName());
+        state.setMaxFreq(groupCreation.getDuration());
 
         groupDAO.create(state);
 
         GroupId groupId = new GroupId(groupCreation.getName());
-        manage(groupId).addUser(creator);
+        manage(groupId).join(creator);
     }
 
     @Provides

@@ -1,11 +1,14 @@
 package com.actislink.bussines;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import com.actislink.dao.GroupDAO;
+import com.actislink.dao.MaxFreqException;
 import com.actislink.dao.UserDAO;
 import com.actislink.model.GroupId;
 import com.actislink.model.GroupInfo;
@@ -30,12 +33,19 @@ public class GroupManager {
         this.id = id;
     }
 
-    public void addUser(UserId userId) {
-        groupDAO.join(id, userId);
+    private boolean canJoin(GroupState state) {
+        return state.getLastAccessInstant() == null
+                || Duration.between(state.getLastAccessInstant(), Instant.now()).compareTo(state.getMaxFreq()) > 0;
     }
 
-    public void join(UserId id) {
-        groupDAO.join(this.id, id);
+    public void join(UserId id) throws MaxFreqException {
+        GroupState state = groupDAO.loadById(this.id);
+        if (canJoin(state)) {
+            groupDAO.join(this.id, id);
+            state.setLastAccessInstant(Instant.now());
+        } else {
+            throw new MaxFreqException();
+        }
     }
 
     public void leave(UserId id) {

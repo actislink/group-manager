@@ -1,5 +1,8 @@
 package com.actislink.rest;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,7 +16,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.actislink.dao.AlreadyExistException;
+import com.actislink.dao.InternalException;
 import com.actislink.model.GroupCreation;
 import com.actislink.model.GroupId;
 import com.actislink.model.GroupInfo;
@@ -29,13 +32,13 @@ public class GroupController {
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupController.class);
 
     @GET
-    public Response create(@QueryParam("name") String name, @Context HttpServletRequest req) {
+    public Response create(@QueryParam("name") String name, @QueryParam("maxFreq") long maxFreq, @Context HttpServletRequest req) {
         try {
             UserId userId = getCurrentUser(req.getSession());
-            groupService.createGroup(new GroupCreation(name), userId);
+            groupService.createGroup(new GroupCreation(name, Duration.of(maxFreq, ChronoUnit.SECONDS)), userId);
 
             return Response.status(200).build();
-        } catch (AlreadyExistException e) {
+        } catch (InternalException e) {
             LOGGER.warn("", e);
             return Response.status(500).entity(e.getMessage()).build();
         }
@@ -51,7 +54,7 @@ public class GroupController {
         try {
             groupService.manage(new GroupId(group)).join(getCurrentUser(req.getSession()));
             return Response.status(200).build();
-        } catch (IllegalArgumentException e) {
+        } catch (InternalException e) {
             LOGGER.warn("", e);
             return Response.status(500).entity(e.getMessage()).build();
         }

@@ -1,5 +1,6 @@
 package com.actislink.model;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +9,9 @@ public class GroupState {
     private GroupId id;
     private Instant creationInstant;
     private Set<GroupUserItem> members = new HashSet<GroupUserItem>();
+
+    private Duration maxFreq;
+    private Instant lastAccessInstant;
 
     public GroupState(String name) {
         creationInstant = Instant.now();
@@ -54,5 +58,21 @@ public class GroupState {
 
     public Set<GroupUserItem> getMembers() {
         return members;
+    }
+
+    public Duration getMaxFreq() {
+        return maxFreq;
+    }
+
+    public void setMaxFreq(Duration maxFreq) {
+        this.maxFreq = maxFreq;
+    }
+
+    public Instant getLastAccessInstant() {
+        return lastAccessInstant;
+    }
+
+    public void setLastAccessInstant(Instant lastAccessInstant) {
+        this.lastAccessInstant = lastAccessInstant;
     }
 }
